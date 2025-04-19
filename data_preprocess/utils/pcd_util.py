@@ -100,7 +100,7 @@ class PCDGenerator:
         cam_index
     ):
 
-        rgb_img_path = os.path.join(self.bag_folder, f"cam{cam_index}/rgb/image_raw/{str(rgb_img_index)}.png")
+        rgb_img_path = os.path.join(self.bag_folder, f"cam{cam_index}/rgb/image_raw/{str(rgb_img_index)}.jpg")
         depth_img_path = os.path.join(self.bag_folder, f"cam{cam_index}/depth_to_rgb/image_raw/{str(rgb_img_index)}.png")
 
         undistorted_rgb = self.undistort_image(

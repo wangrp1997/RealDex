@@ -4,8 +4,8 @@ sys.path.append(".")
 sys.path.append("..")
 # os.chdir("/remote-home/liuym/Project/IntelligentHand")
 
-from models.hand_model import ShadowHandModel
-from data_preprocess.ours.utils.kintree import Kintree
+from models.shadow_hand_builder import ShadowHandBuilder
+from utils.kintree import Kintree
 from scipy.spatial.transform import Rotation
 import numpy as np
 
@@ -81,8 +81,8 @@ def vis_cad():
     use_visual_mesh = False
     # os.chdir('./models')
     # print(os.getcwd())
-    hand_file = "./mjcf/shadow_hand/shadow_hand_vis.xml" if use_visual_mesh else "./mjcf/shadow_hand_wrist_free.xml"
-    hand_model = ShadowHandModel(hand_file,"./mjcf/meshes",device="cpu")
+    hand_file = "../dexgrasp_generation/assets/mjcf/shadow_hand/shadow_hand_vis.xml" if use_visual_mesh else "../dexgrasp_generation/assets/mjcf/shadow_hand_wrist_free.xml"
+    hand_model = ShadowHandModel(hand_file,"../dexgrasp_generation/assets/mjcf/meshes",device="gpu")
     
     global_ori, global_trans, poses = load_pose()
     
@@ -92,14 +92,14 @@ def vis_cad():
     pose = [poses[name] for name in ShadowHandModel.joint_names]
     hand_pose = trans + rot + pose
     hand_pose = np.array(hand_pose)
-    hand_pose = torch.tensor(hand_pose, dtype=torch.float, device="cpu").unsqueeze(0)
+    hand_pose = torch.tensor(hand_pose, dtype=torch.float, device="gpu").unsqueeze(0)
     print(global_ori, global_trans)
     # print(poses)
     print(len(poses), len(JOINTS_NAME))
     
     hand_model.set_parameters(hand_pose)
     hand_mesh = hand_model.get_trimesh_data(0)
-    hand_mesh.export("/remote-home/liuym/data/0721/results/frame_1687318023320834343.obj")
+    hand_mesh.export("../RealDex/dexhand_poses/frame_1687318023320834343.obj")
     
 
 
